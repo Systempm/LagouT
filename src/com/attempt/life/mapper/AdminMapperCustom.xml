@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.attempt.life.mapper.AdminMapperCustom" >
+
+ 
+  	<sql id="query_login_where">
+   	<!-- 使用动态sql，通过if判断，满足条件进行sql拼接 -->
+   	<!-- 商品查询条件通过ItemsQueryVo包装对象 中itemsCustom属性传递 -->
+   		username='${loginVo.username}' and password='${loginVo.password}'		
+   </sql>
+
+  	<!-- parameterType传入包装对象(包装了查询条件)
+  		resultType建议使用扩展对象
+  	 -->
+  	<select id="AdminLogin" parameterType="com.attempt.life.po.LoginVo"
+  		 resultType="integer">
+  		SELECT count(*) FROM admin  
+  		<where>
+  			<include refid="query_login_where"></include>
+  		</where>
+  	</select>
+  	
+  	<select id="AdminSelectAllDbData" 
+  		 resultType="com.attempt.life.po.DbDataVo">
+  		SELECT * FROM lagou  
+  	</select>
+  <!--查找所有数据count  -->
+  		<select id="AdminSelectcountAllDbData" 
+  		 resultType="integer">
+  		SELECT count(*) FROM lagou  
+  	</select>
+  	<!-- 查找数据  有start  and  end -->
+  	<select id="AdminSelectAllDbDatastartend" 	 resultType="com.attempt.life.po.DbDataVo">
+  		SELECT * FROM lagou order by createTime DESC limit ${pageindex},${pagesize}
+  	</select>
+  	
+</mapper>

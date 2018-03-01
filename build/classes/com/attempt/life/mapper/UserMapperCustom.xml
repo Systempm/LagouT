@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.attempt.life.mapper.UserMapperCustom" >
+
+ 
+  	<sql id="query_login_where">
+   	<!-- 使用动态sql，通过if判断，满足条件进行sql拼接 -->
+   	<!--  -->
+   		username='${loginVo.username}' and password='${loginVo.password}'		
+   </sql>
+	<sql id="query_highselect_if">
+   	<!-- if 判断然后插入 -->
+   	<!--  -->
+   	
+<if test="uv.minsalary!=null and uv.minsalary!=''"> and minslary   &gt;=${uv.minsalary}</if>	
+<if test="uv.maxsalary!=null and uv.maxsalary!='' "> and maxslary  &lt;=${uv.maxsalary}</if>
+<if test="uv.position!=null"> and positionName like '%${uv.position}%'</if>
+<if test="uv.city!=null"> and city = '${uv.city}'</if>
+   </sql>
+
+
+  	<!-- parameterType传入包装对象(包装了查询条件)
+  		resultType建议使用扩展对象
+  	 -->
+  	<select id="UserLogin" parameterType="com.attempt.life.po.LoginVo"
+  		 resultType="integer">
+  		SELECT count(*) FROM userlogin  
+  		<where>
+  			<include refid="query_login_where"></include>
+  		</where>
+  	</select>
+  	
+  	
+  	<insert id="UserRegistered" parameterType="com.attempt.life.po.LoginVo" >
+  	  	       insert into userlogin values (#{loginVo.username},#{loginVo.password})
+  	</insert>
+  	
+  	<select id="finduser" parameterType="com.attempt.life.po.LoginVo"
+  		 resultType="integer">
+  		SELECT count(*) FROM userlogin  WHERE username=#{loginVo.username}
+  		
+  	</select>
+  	<update id="UserUpdatepassword" parameterType="com.attempt.life.po.LoginVo">
+  		update userlogin set password =#{loginVo.password} where username=#{loginVo.username}
+  	</update>
+  	
+  	<insert id="userinlove" parameterType="com.attempt.life.po.UserOperationVo" >
+  	insert into userlove values(#{userOperationVo.username},#{userOperationVo.positionid})
+  	</insert>
+  	<insert id="userinhate" parameterType="com.attempt.life.po.UserOperationVo" >
+  	insert into userhate values(#{userOperationVo.username},#{userOperationVo.positionid})
+  	</insert>
+  	
+  	<select id="userselectlove" parameterType="String"  resultType="com.attempt.life.po.DbDataVo">
+ select *  from lagou
+   where positionId in (select positionId from userlove  where username =#{username} )
+  	</select>
+  		<select id="userselecthate" parameterType="String"  resultType="com.attempt.life.po.DbDataVo">
+ select *  from lagou
+   where positionId in (select positionId from userhate  where username =#{username} )
+  	</select>
+  	
+  	<!--  用户搜索 全部列表信息  --> <!--↓  ↓ ↓ ↓ ↓ ↓ ↓ -->
+  	<!-- count 值 -->
+  		<select id="user_select_dbcount" parameterType="String" 
+  		 resultType="integer">
+  	select count(*)  from lagou
+   where positionId not in (select positionId from userhate  where username =#{username} )and positionId not in (select positionId from userlove  where username =#{username} )
+  	</select>
+  		<select id="user_select_dbstartend"
+  		 resultMap="dbstartendMap">
+  	select *  from lagou
+   where positionId not in (select positionId from userhate  where username =#{username} )and positionId not in (select positionId from userlove  where username =#{username} )
+   order by createTime DESC limit ${pageindex},${pagesize}
+  	</select>
+  	<!--↑   ↑ ↑ ↑ ↑ ↑ ↑ ↑   -->
+  	<resultMap type="com.attempt.life.po.DbDataVo" id="dbstartendMap">
+  	<id column="positionId" property="positionId"/>
+  	
+  	<result column="companyshortname" property="companshortname"/>
+  	  	<result column="companyFullName" property="companyFullName"/>
+  	  	  	<result column="positionName" property="positionName"/>
+  	  	  	  	<result column="positionAdvantage" property="positionAdvantage"/>
+  	  	  	  	  	<result column="salary" property="salary"/>
+  	  	  	  	  	<result column="minslary" property="minsalary"/>
+  	  	  	  	  	<result column="maxslary" property="maxsalary"/>
+  	  	  	  	  	<result column="workYear" property="workYear"/>
+  	  	  	  	  	<result column="education" property="education"/>
+  	  	  	  	  		<result column="city" property="city"/>
+  	  	  	  	  			<result column="district" property="district"/>
+  	  	  	  	  				<result column="companyLogo" property="companyLogo"/>
+  	  	  	  	  				<result column="companyLabelList" property="companyLabelList"/>
+  	  	  	  	  					<result column="createTime" property="createTime"/>
+  	  	  	  	  	
+  	  	</resultMap>  
+  	  	<!--高级查询   -->
+  	  		<select id="user_highselect_dbcount" parameterType="String" 
+  		 resultType="integer">
+  	select count(*)  from lagou
+   where positionId not in (select positionId from userhate  where username =#{username} )and positionId not in (select positionId from userlove  where username =#{username} )
+<include refid="query_highselect_if"></include>
+  	</select>
+  		<select id="user_highselect_dbstartend"
+  		 resultMap="dbstartendMap">
+  	select *  from lagou
+   where positionId not in (select positionId from userhate  where username =#{username} )and positionId not in (select positionId from userlove  where username =#{username} )
+  <include refid="query_highselect_if"></include>
+   order by createTime DESC limit ${pageindex},${pagesize}
+  	</select>
+  	   	  				
+</mapper>
