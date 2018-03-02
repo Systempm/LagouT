@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.attempt.life.po.AlldbPageVo;
+import com.attempt.life.po.MylistVo;
 import com.attempt.life.po.UserOperationVo;
 import com.attempt.life.po.UserhighselectVo;
 import com.attempt.life.service.impl.UserLoginServiceImpl;
@@ -23,6 +24,16 @@ public class UserOperationController {
 	
 	@Autowired
 	private UserOperationServiceImpl userOperationServiceImpl;
+	
+	
+	@RequestMapping("/Usermy")
+	public String Usermy(HttpSession httpSession,Model model)throws Exception{
+		//传入用户名 拿到数据
+	MylistVo mylistvo=	userOperationServiceImpl.getmy((String)httpSession.getAttribute("username"));
+	System.out.println(mylistvo.getHatenum());	
+	model .addAttribute("mylist",mylistvo);
+		return "user_my";
+	}
 	
 	//喜好 和厌恶的 都不会显示在 全部列表中 
 	@RequestMapping("/Userinlove")

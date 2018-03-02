@@ -163,7 +163,9 @@ if (request.getAttribute("pagevo")!=null){
 <div id ="logo<%= i%>" style="width: 100%; height: 61px " >
 <img src="<%=ll.get(i).getCompanyLogo() %>"  width="100%" height="100%">
 </div>
-    <p style="Writing-mode:tb-rl">    <%=ll.get(i).getPositionName() %>  <br> <%=ll.get(i).getCompanshortname() %></p>            
+    <p style="Writing-mode:tb-rl">    <%=ll.get(i).getPositionName() %>  <br> <%=ll.get(i).getCompanshortname() %>
+    <a href="https://www.lagou.com/jobs/<%=ll.get(i).getPositionId() %>.html" target= _blank>访问</a>
+    </p>            
     
                       
                                                                                         
@@ -179,7 +181,11 @@ if (request.getAttribute("pagevo")!=null){
                                         	  }%>                                 <!-- 调高度 -->                                                                              <!-- 调高度 -->
 <div id="div1-b" style="color: yellow; position:absolute;top:<%=top%>px;background: green ;width: 100% ;height: <%=height%>px">
 
-<%=ll.get(i).getSalary() %><br><%=ll.get(i).getWorkYear()%><br><%=ll.get(i).getEducation()%>   </div> 
+<%=ll.get(i).getSalary() %><br><%=ll.get(i).getWorkYear()%><br><%=ll.get(i).getEducation()%>  
+<br>
+<a href="Userinlove?username=<%=session.getAttribute("username") %>&positionid=<%=ll.get(i).getPositionId() %>&page=<%=pb.getPageNum() %>"> 收藏 </a> <br>
+ <a href="Userinhate?username=<%=session.getAttribute("username") %>&positionid=<%=ll.get(i).getPositionId()%>&page=<%=pb.getPageNum() %>">厌恶</a>
+ </div> 
 </div>
 <%} %>
 <!--  跳转 a href 分页 -->

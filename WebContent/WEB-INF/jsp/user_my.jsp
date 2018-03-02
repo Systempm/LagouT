@@ -11,10 +11,10 @@
 
 <div>
  <h4>我的信息！</h4>
-<p>账户创建时间   ->  XXXX</p>
-<p>登录次数    ->  XXXX</p>
-<p>收藏  -> XXXX条</p>
-<p>厌恶 -> XXXX条</p>
+<p>账户创建时间   ->  ${mylist.createtime}</p>
+<p>登录次数    -> ${mylist.loginnum} 次</p>
+<p>收藏  -> ${mylist.lovenum}条</p>
+<p>厌恶 -> ${mylist.hatenum}条</p>
 </div>
 
 </body>

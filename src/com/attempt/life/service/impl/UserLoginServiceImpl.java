@@ -19,9 +19,17 @@ public class UserLoginServiceImpl implements UserLoginService{
 		// TODO Auto-generated method stub
 		if(userMapperCustom!=null ) {
 	 if (	userMapperCustom.UserLogin(lg)==null || userMapperCustom.UserLogin(lg)==0)
-	 { return false;}
-	 else return true;
-		}
+	 {
+		 return false;
+	 
+	 
+	 }
+	 else 
+	 {//修改登录次数加一
+		 userMapperCustom.loginone(lg);
+		 return true;
+	 }	
+	 }
 	 
 		return false;
 	}
@@ -47,5 +55,14 @@ public class UserLoginServiceImpl implements UserLoginService{
 		
 		
 		return false;
+	}
+	public boolean validationlg(LoginVo lg) {
+		// TODO Auto-generated method stub
+		if(lg.getUsername()!=""&&lg.getUsername()!=null&&lg.getPassword()!=""&&lg.getPassword()!=null) {
+		return true;}
+		else
+		{
+			return false;
+		}
 	}
 }

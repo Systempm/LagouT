@@ -39,7 +39,7 @@
 
 		<dl class="custom">			
 			<dt onClick="changeImage()">我<img src="welcome/images/left/select_xl01.png"></dt>
-			<dd class="first_dd" ><a  target="fname" href="gouser_my">我的信息</a></dd>
+			<dd class="first_dd" ><a  target="fname" href="Usermy">我的信息</a></dd>
 			<dd class="first_dd"><a   target="fname" href="Userselectlove">我的收藏</a></dd>
 			<dd class="first_dd"><a target="fname" href="Userselecthate">厌恶</a></dd>
 			

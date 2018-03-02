@@ -32,7 +32,8 @@
   	
   	
   	<insert id="UserRegistered" parameterType="com.attempt.life.po.LoginVo" >
-  	  	       insert into userlogin values (#{loginVo.username},#{loginVo.password})
+
+  	  	       insert into userlogin values (#{loginVo.username},#{loginVo.password},NOW(),0)
   	</insert>
   	
   	<select id="finduser" parameterType="com.attempt.life.po.LoginVo"
@@ -107,5 +108,33 @@
   <include refid="query_highselect_if"></include>
    order by createTime DESC limit ${pageindex},${pagesize}
   	</select>
-  	   	  				
+  	
+  	
+ <select id="selectmy" parameterType="String"  resultMap="myselectmap">
+  SELECT username,loginnum,createtime, 
+(Select count(*)from userlove where username =#{username}) lovenum,
+(Select count(*)from userhate where username =#{username}) hatenum 
+FROM `userlogin` A where A.username = #{username}
+
+
+  	</select>
+  	   <!-- 
+  	   <resultMap type="com.attempt.life.po.DbDataVo" id="dbstartendMap">
+  	<id column="positionId" property="positionId"/>
+  	    -->
+  	   <resultMap type="com.attempt.life.po.MylistVo" id="myselectmap">
+  	   	<id column="username" property="username"/>
+  	   	
+  	     <result column="createtime" property="createtime"/>
+  	         <result column="lovenum" property="lovenum"/>
+  	            <result column="hatenum" property="hatenum"/>
+  	     <result column="createtime" property="createtime"  javaType="String"/> 
+  	   
+  	   </resultMap>
+  	   
+  	   <!--用户登录  登录次数+1  -->
+  	<update id="loginone" parameterType="com.attempt.life.po.LoginVo"> 
+  	update  userlogin Set loginnum =loginnum+1  where username = #{lg.username} 
+  	  </update>
+  	   
 </mapper>

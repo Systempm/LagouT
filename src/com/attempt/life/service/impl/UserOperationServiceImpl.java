@@ -1,5 +1,6 @@
 package com.attempt.life.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.attempt.life.mapper.UserMapperCustom;
 import com.attempt.life.po.AlldbPageVo;
 import com.attempt.life.po.DbDataVo;
+import com.attempt.life.po.MylistVo;
 import com.attempt.life.po.UserOperationVo;
 import com.attempt.life.po.UserhighselectVo;
 import com.attempt.life.service.UserOperationService;
@@ -91,6 +93,13 @@ public class UserOperationServiceImpl implements UserOperationService{
 		 
 		 alldbpagevo.setList(list);
 		return alldbpagevo;
+	}
+	public MylistVo getmy(String  username) throws Exception {
+		// TODO Auto-generated method stub
+		
+		MylistVo mylistVo=	userMapperCustom.selectmy(username);
+//		mylistVo.setCreatetime( new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(mylistVo.getCreatetime()));//µÈ¼ÛÓÚnow.toLocaleString());
+		return mylistVo ;
 	}
 	
 	

@@ -52,10 +52,16 @@ function adminlogin(){
              ${information} 
                 <button type="submit" class="submit_button">登录</button>
                   <button type="button" class="submit_button" onclick="registeredsubmit()">注册</button>
-                   <button type="button" class="">游客入口</button>
-                            <button type="button" class="" onclick="adminlogin()">管理入口</button>
+              
+                 
+                 
                 <div class="error"><span>+</span></div>
             </form>          
+             <br> <br> <br><br>  <br> <br> <br>
+              
+              
+               
+              <h5 > 感谢来访！V</h5>
         </div>	
     </body>
 

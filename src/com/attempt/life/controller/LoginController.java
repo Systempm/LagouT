@@ -27,7 +27,7 @@ public class LoginController {
 		System.out.println("success");
 			return "success";
 		}
-	    
+	    //写的狠渣！！
 	    @RequestMapping("/login")
 		public String login( HttpServletRequest request,Model model, LoginVo loginVo ,HttpSession httpSession)throws Exception {
 	   String  username= request.getParameter("username");
@@ -51,7 +51,7 @@ public class LoginController {
 			 return "err";
 		 }
 		}
-	    
+	    //注册
 	    @RequestMapping("/registered")
 		public String registered( HttpServletRequest request,Model model, LoginVo loginVo)throws Exception {
 	   String  username= request.getParameter("username");
@@ -60,23 +60,31 @@ public class LoginController {
 	    lg.setUsername(username);
 	    lg.setPassword(password);
 		System.out.println(username+"  "+password);
+	
 		Boolean result=(Boolean)userLoginServiceImpl.UserRegistered(lg);
 		  System.out.println("result::"+result);
-		
-		 if(result==true) {
+			if(userLoginServiceImpl.validationlg(lg)) {
+		 if(result) {
 			 System.out.println("注册成功");
 			String information="注册成功！";
 			  model.addAttribute("information", information);  
 			 return "login";
 			 
-		 }
+		 } 
 		 else {
 			 System.out.println("注册失败,该用户名已经存在");
 		String	 information="注册失败,该用户名已经存在";
 			  model.addAttribute("information", information);  
 			 return "login";
 		 }
-	
+		
+		}
+			else
+			{
+			 String information="注册失败！用户名或密码不合法";
+			  model.addAttribute("information", information);  
+			 return "login";
+			}
 		}
 	    
 	    @RequestMapping("/user_update_password")
